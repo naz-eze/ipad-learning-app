@@ -1,0 +1,50 @@
+# Generate PianoFall.xcodeproj with:  brew install xcodegen && xcodegen
+# Re-run `xcodegen` after adding/removing files or changing this file.
+name: PianoFall
+options:
+  bundleIdPrefix: com.nazeze
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    # Set your Apple team ID here (or pick it in Xcode > Signing & Capabilities).
+    DEVELOPMENT_TEAM: ""
+targets:
+  PianoFall:
+    type: application
+    platform: iOS
+    sources:
+      - PianoFall
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nazeze.PianoFall
+        INFOPLIST_FILE: PianoFall/Info.plist
+        TARGETED_DEVICE_FAMILY: "2" # iPad
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+  PianoFallTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - PianoFallTests
+    dependencies:
+      - target: PianoFall
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nazeze.PianoFallTests
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "2"
+schemes:
+  PianoFall:
+    build:
+      targets:
+        PianoFall: all
+        PianoFallTests: [test]
+    test:
+      targets:
+        - PianoFallTests

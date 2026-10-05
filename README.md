@@ -15,16 +15,24 @@ and play along to falling notes.
 - **Scrub** by dragging up/down on the falling notes or along the progress bar
 - **Realistic piano**: load any piano `.sf2` SoundFont (⚙️ → Sound). The built-in sound is basic.
 
-## Running it
-`PianoFall.swiftpm` is a Swift Playgrounds app package.
+## Running it (Mac + Xcode)
+The Xcode project is generated from `project.yml` with [XcodeGen](https://github.com/yonaskolb/XcodeGen),
+so it's never edited by hand and doesn't cause merge conflicts.
 
-**On the iPad (no Mac needed):**
-1. Install **Swift Playgrounds** from the App Store.
-2. Get this folder onto the iPad. For example, download the repo as a ZIP on GitHub, open it in Files and unzip it.
-3. Open `PianoFall.swiftpm` in Swift Playgrounds and press ▶︎ Run.
+```sh
+brew install xcodegen   # once
+xcodegen                # creates PianoFall.xcodeproj (re-run after adding/removing files)
+open PianoFall.xcodeproj
+```
 
-**On a Mac:** open `PianoFall.swiftpm` in Xcode, pick your iPad as the run destination, then Run.
-You'll need to choose a development team under Signing.
+1. In Xcode: **PianoFall target → Signing & Capabilities → Team**, then choose your Apple ID.
+   (Or set `DEVELOPMENT_TEAM` in `project.yml` once so it survives regenerating.)
+2. Plug in the iPad, select it as the run destination and press **⌘R**.
+   The first time, enable **Developer Mode** on the iPad (Settings → Privacy & Security).
+3. **⌘U** runs the unit tests (MIDI parser, tempo map, keyboard layout).
+
+A free Apple ID works, but the app must be reinstalled every 7 days. A paid developer
+account ($99/yr) removes that limit and allows TestFlight.
 
 ## Hardware
 - Use Apple's **Lightning to USB 3 Camera Adapter** (or a USB-C hub on newer iPads). The version
@@ -34,11 +42,13 @@ You'll need to choose a development team under Signing.
 ## Code layout
 | Folder | What's in it |
 |---|---|
-| `Model/` | `Song`, a dependency-free Standard MIDI File parser (tempo changes, bars), demo song |
-| `MIDI/` | CoreMIDI input that auto-connects keyboards as they're plugged in |
-| `Audio/` | `AVAudioEngine` + sampler, SoundFont loading |
-| `Playback/` | Clock, speed, looping, wait mode, scheduling of the notes the app plays |
-| `Views/` | Control bar, scrubber, falling notes + keyboard (one `Canvas`) |
+| `project.yml` | XcodeGen spec (targets, bundle ID, iPad-only, iOS 17+) |
+| `PianoFall/Model/` | `Song`, a dependency-free Standard MIDI File parser (tempo changes, bars), demo song |
+| `PianoFall/MIDI/` | CoreMIDI input that auto-connects keyboards as they're plugged in |
+| `PianoFall/Audio/` | `AVAudioEngine` + sampler, SoundFont loading |
+| `PianoFall/Playback/` | Clock, speed, looping, wait mode, scheduling of the notes the app plays |
+| `PianoFall/Views/` | Control bar, scrubber, falling notes + keyboard (one `Canvas`) |
+| `PianoFallTests/` | Unit tests |
 
 ## Ideas for next steps
 - Chord names over the keyboard
@@ -46,3 +56,4 @@ You'll need to choose a development team under Signing.
 - Bluetooth MIDI pairing screen
 - A song library with saved per-song settings (speed, loop, parts)
 - Sheet music view
+- A real app icon (`PianoFall/Assets.xcassets/AppIcon.appiconset`)
