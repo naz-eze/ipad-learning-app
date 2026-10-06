@@ -73,7 +73,8 @@ struct Song {
         self.parts = parts
 
         let lastEnd = notes.map(\.end).max() ?? 0
-        duration = max(lastEnd, endTime)
+        let duration = max(lastEnd, endTime)
+        self.duration = duration
         maxNoteDuration = notes.map(\.duration).max() ?? 0
         lowestPitch = notes.map(\.pitch).min() ?? 60
         highestPitch = notes.map(\.pitch).max() ?? 72
